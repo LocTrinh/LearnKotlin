@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import com.wordpress.trinhbaloc.learnkotlin.commons.adapter.ViewType
 import com.wordpress.trinhbaloc.learnkotlin.commons.adapter.ViewTypeDelegateAdapter
 import com.wordpress.trinhbaloc.learnkotlin.R
-import com.wordpress.trinhbaloc.learnkotlin.commons.inflate
+import com.wordpress.trinhbaloc.learnkotlin.commons.extensions.inflate
 
 class LoadingDelegateAdapter : ViewTypeDelegateAdapter {
 

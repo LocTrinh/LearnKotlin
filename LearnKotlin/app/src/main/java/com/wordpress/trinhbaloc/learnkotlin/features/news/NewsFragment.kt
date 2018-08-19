@@ -8,9 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.wordpress.trinhbaloc.learnkotlin.R
-import com.wordpress.trinhbaloc.learnkotlin.commons.inflate
+import com.wordpress.trinhbaloc.learnkotlin.commons.extensions.inflate
 import kotlinx.android.synthetic.main.news_fragment.*
 import com.wordpress.trinhbaloc.learnkotlin.features.news.adapter.NewsAdapter
+import com.wordpress.trinhbaloc.learnkotlin.commons.RedditNewsItem
 
 class NewsFragment : Fragment() {
 
@@ -26,6 +27,22 @@ class NewsFragment : Fragment() {
         news_list.layoutManager = LinearLayoutManager(context)
 
         initAdapter()
+
+        if (savedInstanceState == null) {
+            val news = mutableListOf<RedditNewsItem>()
+            for (i in 1..10) {
+                news.add(RedditNewsItem(
+                        "author$i",
+                        "Title $i",
+                        i, // number of comments
+                        1457207701L - i * 200, // time
+                        "http://lorempixel.com/200/200/technics/$i", // image url
+                        "url"
+                ))
+            }
+            (news_list.adapter as NewsAdapter).addNews(news)
+        }
+
     }
 
     private fun initAdapter() {

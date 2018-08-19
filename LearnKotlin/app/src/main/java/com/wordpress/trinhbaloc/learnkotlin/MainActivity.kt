@@ -18,7 +18,6 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             changeFragment(NewsFragment())
         }
-
     }
 
     fun changeFragment(f: Fragment, cleanStack: Boolean = false) {
