@@ -2,6 +2,10 @@ package com.wordpress.trinhbaloc.learnkotlin.commons
 import com.wordpress.trinhbaloc.learnkotlin.commons.adapter.AdapterConstants
 import com.wordpress.trinhbaloc.learnkotlin.commons.adapter.ViewType
 
+data class RedditNews(
+        val after: String,
+        val before: String,
+        val news: List<RedditNewsItem>)
 
 data class RedditNewsItem (
         val author: String,

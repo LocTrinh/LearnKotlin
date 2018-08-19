@@ -3,10 +3,10 @@ package com.wordpress.trinhbaloc.learnkotlin.features.news.adapter
 import android.support.v4.util.SparseArrayCompat
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
+import com.wordpress.trinhbaloc.learnkotlin.commons.RedditNewsItem
 import com.wordpress.trinhbaloc.learnkotlin.commons.adapter.AdapterConstants
 import com.wordpress.trinhbaloc.learnkotlin.commons.adapter.ViewType
 import com.wordpress.trinhbaloc.learnkotlin.commons.adapter.ViewTypeDelegateAdapter
-import com.wordpress.trinhbaloc.learnkotlin.commons.RedditNewsItem
 import java.util.*
 
 class NewsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
