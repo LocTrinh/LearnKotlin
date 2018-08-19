@@ -3,7 +3,7 @@ import com.wordpress.trinhbaloc.learnkotlin.commons.adapter.AdapterConstants
 import com.wordpress.trinhbaloc.learnkotlin.commons.adapter.ViewType
 
 
-data class RedditNewsItem(
+data class RedditNewsItem (
         val author: String,
         val title: String,
         val numComments: Int,
