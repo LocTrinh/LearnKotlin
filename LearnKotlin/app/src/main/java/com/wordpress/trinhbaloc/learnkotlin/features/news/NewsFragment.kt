@@ -2,17 +2,19 @@ package com.wordpress.trinhbaloc.learnkotlin.features.news
 
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.wordpress.trinhbaloc.learnkotlin.R
+import com.wordpress.trinhbaloc.learnkotlin.commons.RxBaseFragment
 import com.wordpress.trinhbaloc.learnkotlin.commons.extensions.inflate
 import com.wordpress.trinhbaloc.learnkotlin.features.news.adapter.NewsAdapter
 import kotlinx.android.synthetic.main.news_fragment.*
+import rx.schedulers.Schedulers
 
-class NewsFragment : Fragment() {
+class NewsFragment : RxBaseFragment()  {
 
     private val newsManager by lazy { NewsManager() }
 
@@ -29,24 +31,22 @@ class NewsFragment : Fragment() {
         initAdapter()
 
         if (savedInstanceState == null) {
-//            val news = mutableListOf<RedditNewsItem>()
-//            for (i in 1..10) {
-//                news.add(RedditNewsItem(
-//                        "author$i",
-//                        "Title $i",
-//                        i, // number of comments
-//                        1457207701L - i * 200, // time
-//                        "http://lorempixel.com/200/200/technics/$i", // image url
-//                        "url"
-//                ))
-//            }
-//            (news_list.adapter as NewsAdapter).addNews(news)
             requestNew()
         }
 
     }
-    fun requestNew() {
-        // (news_list.adapter as NewsAdapter).addNews(news)
+    private fun requestNew() {
+        val subscription = newsManager.getNews()
+                .subscribeOn(Schedulers.io())
+                .subscribe (
+                        { retrievedNews ->
+                            (news_list.adapter as NewsAdapter).addNews(retrievedNews)
+                        },
+                        { e ->
+                            Snackbar.make(news_list, e.message ?: "", Snackbar.LENGTH_LONG).show()
+                        }
+                )
+
     }
     private fun initAdapter() {
         if (news_list.adapter == null) {
