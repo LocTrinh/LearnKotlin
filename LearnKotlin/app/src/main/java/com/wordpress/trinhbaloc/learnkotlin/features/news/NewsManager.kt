@@ -1,23 +1,31 @@
 package com.wordpress.trinhbaloc.learnkotlin.features.news
 
-import com.wordpress.trinhbaloc.learnkotlin.api.RestAPI
+import com.wordpress.trinhbaloc.learnkotlin.api.NewsAPI
 import com.wordpress.trinhbaloc.learnkotlin.commons.RedditNews
 import com.wordpress.trinhbaloc.learnkotlin.commons.RedditNewsItem
 import rx.Observable
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
- * News Manager allows you to request more news from Reddit.
+ * News Manager allows you to request news from Reddit API.
  *
  * @author juancho
  */
-class NewsManager(private val api: RestAPI = RestAPI()) {
+@Singleton
+class NewsManager @Inject constructor(private val api: NewsAPI) {
 
+    /**
+     *
+     * Returns Reddit News paginated by the given limit.
+     *
+     * @param after indicates the next page to navigate.
+     * @param limit the number of news to request.
+     */
     fun getNews(after: String, limit: String = "10"): Observable<RedditNews> {
         return Observable.create {
             subscriber ->
-
             val callResponse = api.getNews(after, limit)
-
             val response = callResponse.execute()
 
             if (response.isSuccessful) {
@@ -33,12 +41,10 @@ class NewsManager(private val api: RestAPI = RestAPI()) {
                         news)
 
                 subscriber.onNext(redditNews)
-
                 subscriber.onCompleted()
             } else {
                 subscriber.onError(Throwable(response.message()))
             }
-
         }
     }
 }
