@@ -2,22 +2,21 @@ package com.wordpress.trinhbaloc.learnkotlin.commons
 
 
 import android.support.v4.app.Fragment
-import rx.subscriptions.CompositeSubscription
+import kotlinx.coroutines.experimental.Job
 
-open class RxBaseFragment() : Fragment() {
 
-    protected var subscriptions = CompositeSubscription()
+open class RxBaseFragment : Fragment() {
+
+    protected var job: Job? = null
 
     override fun onResume() {
         super.onResume()
-        subscriptions = CompositeSubscription()
+        job = null
     }
 
     override fun onPause() {
         super.onPause()
-//        if (!subscriptions.isUnsubscribed) {
-//            subscriptions.unsubscribe()
-//        }
-        subscriptions.clear()
+        job?.cancel()
+        job = null
     }
 }

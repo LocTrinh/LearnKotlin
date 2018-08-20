@@ -9,7 +9,7 @@ import com.wordpress.trinhbaloc.learnkotlin.commons.adapter.ViewType
 import com.wordpress.trinhbaloc.learnkotlin.commons.adapter.ViewTypeDelegateAdapter
 import java.util.*
 
-class NewsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class NewsAdapter(listener: NewsDelegateAdapter.onViewSelectedListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var items: ArrayList<ViewType>
     private var delegateAdapters = SparseArrayCompat<ViewTypeDelegateAdapter>()
@@ -19,26 +19,23 @@ class NewsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     init {
         delegateAdapters.put(AdapterConstants.LOADING, LoadingDelegateAdapter())
-        delegateAdapters.put(AdapterConstants.NEWS, NewsDelegateAdapter())
+        delegateAdapters.put(AdapterConstants.NEWS, NewsDelegateAdapter(listener))
         items = ArrayList()
         items.add(loadingItem)
     }
 
-    override fun getItemCount(): Int {
-        return items.size
-    }
+    override fun getItemCount(): Int = items.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return delegateAdapters.get(viewType).onCreateViewHolder(parent)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+            delegateAdapters.get(viewType).onCreateViewHolder(parent)
+
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        delegateAdapters.get(getItemViewType(position)).onBindViewHolder(holder, this.items[position])
+        delegateAdapters.get(getItemViewType(position)).onBindViewHolder(holder, items[position])
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return this.items.get(position).getViewType()
-    }
+    override fun getItemViewType(position: Int) = items[position].getViewType()
+
     fun addNews(news: List<RedditNewsItem>) {
         // first remove loading and notify
         val initPosition = items.size - 1
@@ -60,13 +57,11 @@ class NewsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyItemRangeInserted(0, items.size)
     }
 
-    fun getNews(): List<RedditNewsItem> {
-        return items
-                .filter { it.getViewType() == AdapterConstants.NEWS }
-                .map { it as RedditNewsItem }
-    }
+    fun getNews(): List<RedditNewsItem> =
+            items
+                    .filter { it.getViewType() == AdapterConstants.NEWS }
+                    .map { it as RedditNewsItem }
+
 
     private fun getLastPosition() = if (items.lastIndex == -1) 0 else items.lastIndex
-
-
 }

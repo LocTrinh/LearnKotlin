@@ -8,14 +8,12 @@ import com.wordpress.trinhbaloc.learnkotlin.commons.adapter.ViewTypeDelegateAdap
 import com.wordpress.trinhbaloc.learnkotlin.commons.extensions.inflate
 
 class LoadingDelegateAdapter : ViewTypeDelegateAdapter {
+
     override fun onCreateViewHolder(parent: ViewGroup) = LoadingViewHolder(parent)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {
     }
 
     class LoadingViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
-            parent.inflate(R.layout.news_item_loading)) {
-    }
-
-
+            parent.inflate(R.layout.news_item_loading))
 }
